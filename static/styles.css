@@ -1,7 +1,6 @@
 body, html {
   height: 100%;
   margin: 0;
-  font-family: cursive;
 }
 
 header {
@@ -9,19 +8,11 @@ header {
   font-weight: 700;
 }
 
-.bg {
-  background-image: linear-gradient(to bottom right, #bc6eff, #7d69ff);
-
-  /* Full height */
-  height: 100%;
-
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+nav {
+  margin-top: 3rem; 
 }
 
 .textBody {
-  font-size: 20px;
+  font-size: 5rem;
   font-weight: 500;
 }
