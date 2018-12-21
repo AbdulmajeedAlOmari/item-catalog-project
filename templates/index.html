@@ -9,7 +9,7 @@
   </div>
 
   <p class="lead">
-    This project is required in the udacity's full stack nano degree program.
+    This project is required in the udacity's Full Stack Nanodegree program.
   </p>
 
   {% with messages = get_flashed_messages() %}
@@ -29,7 +29,7 @@
       <strong>Category</strong>
       {% for category in categories %}
           <br />
-          <a href="/catalog/{{ category.name }}">{{ category.name }}</a>
+          <a class="myAnchor" href="/catalog/{{ category.name }}">{{ category.name }}</a>
       {% endfor %}
 
     </div>
@@ -37,7 +37,7 @@
       <strong>Recently Added Items</strong>
       {% for item in recentlyAddedItems %}
           <br />
-          <a href="/catalog/{{ item.category.name }}/{{ item.id }}">{{ item.name }}</a> <span class="text-muted">({{ item.category.name }})</span>
+          <a class="myAnchor" href="/catalog/{{ item.category.name }}/{{ item.id }}">{{ item.name }}</a> <span class="text-muted">({{ item.category.name }})</span>
       {% endfor %}
     </div>
   </div>

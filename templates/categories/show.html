@@ -16,14 +16,14 @@
       <strong>Category</strong>
       {% for category in categories %}
           <br />
-          <a href="/catalog/{{ category.name }}">{{ category.name }}</a>
+          <a class="myAnchor" href="/catalog/{{ category.name }}">{{ category.name }}</a>
       {% endfor %}
     </div>
     <div class="col-7">
       <strong>Items of category ( <em>{{ category_name }}</em> )</strong>
       {% for item in items %}
           <br />
-          <a href="/catalog/{{ item.category.name }}/{{ item.id }}">{{ item.name }}</a> <span class="text-muted">({{ item.category.name }})</span>
+          <a class="myAnchor" href="/catalog/{{ item.category.name }}/{{ item.id }}">{{ item.name }}</a> <span class="text-muted">({{ item.category.name }})</span>
       {% endfor %}
     </div>
   </div>
