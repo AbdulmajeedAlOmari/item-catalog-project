@@ -1,14 +1,38 @@
 {% include 'common/header.html' %}
-  {% for i in items %}
-      <p class="itemDetails">
-        <ul>
-          <li><strong>ID:</strong> {{ i.id }}</li>
-          <li><strong>Name:</strong> {{ i.name }}</li>
-          <li><strong>Description:</strong> {{ i.description }}</li>
-          <li><strong>Category:</strong> {{ i.category.name }}</li>
-          <li><strong>Creator:</strong> {{ i.user.name }}</li>
-        </ul>
-      </p>
-      <hr />
-  {% endfor %}
+<div id="myJumbotron" class="jumbotron">
+  <h1 class="display-4">Welcome to my Item Catalog</h1>
+  <p class="lead">
+    This project is required in the udacity's full stack nano degree program. <br />
+    <!-- What did in this project:
+    <ul>
+      <li>Styling</li>
+      <li>Routing</li>
+      <li>Database</li>
+      <li>CRUD</li>
+      <li>Authentication</li>
+    </ul> -->
+  </p>
+  <hr class="my-4">
+  <div class="row">
+    <div class="col-4 text-center">
+      <strong>Catalog</strong>
+      <br />
+      <a href="#">DummyCatalog</a>
+      {% for catalog in catalogs %}
+          <br />
+          <a href="#">{{ catalog.name }}</a>
+      {% endfor %}
+
+    </div>
+    <div class="col-8">
+      <strong>Recently Added Items</strong>
+      <br />
+      <a href="#">DummyItem</a> <span class="text-muted">(Soccer)</span>
+      {% for item in recentlyAddedItems %}
+          <a href="#">{{ item.name }}</a> <span class="text-muted">({{ item.category.name }})</span>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
 {% include 'common/footer.html' %}

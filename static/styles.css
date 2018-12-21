@@ -10,3 +10,7 @@ body {
 #searchForm {
   margin: auto;
 }
+
+#myJumbotron {
+  margin-top: 2.0rem;
+}
