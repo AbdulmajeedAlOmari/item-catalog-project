@@ -1,30 +1,14 @@
-{% extends "base.html" %}
-{% block title %}Landing{% endblock %}
-
-{% block content %}
-  <header>
-    Catalog List
-  </header>
-
-  <p class="textBody">
-    {% for i in items %}
-        <p class="itemDetails">
-          <ul>
-            <li><strong>ID:</strong> {{ i.id }}</li>
-            <li><strong>Name:</strong> {{ i.name }}</li>
-            <li><strong>Description:</strong> {{ i.description }}</li>
-            <li><strong>Category:</strong> {{ i.category.name }}</li>
-            <li><strong>Creator:</strong> {{ i.user.name }}</li>
-          </ul>
-        </p>
-        <hr />
-    {% endfor %}
-  <li class="media">
-    <img class="mr-3 img-fluid img-thumbnail" src={{ items[0].category.pic }} height='64px' width='64px' alt="Generic placeholder image">
-    <div class="media-body">
-      <h5 class="mt-0 mb-1">{{items[0].name}}</h5>
-      {{items[0].description}}
-    </div>
-  </li>
-  </p>
-{% endblock %}
+{% include 'common/header.html' %}
+  {% for i in items %}
+      <p class="itemDetails">
+        <ul>
+          <li><strong>ID:</strong> {{ i.id }}</li>
+          <li><strong>Name:</strong> {{ i.name }}</li>
+          <li><strong>Description:</strong> {{ i.description }}</li>
+          <li><strong>Category:</strong> {{ i.category.name }}</li>
+          <li><strong>Creator:</strong> {{ i.user.name }}</li>
+        </ul>
+      </p>
+      <hr />
+  {% endfor %}
+{% include 'common/footer.html' %}
