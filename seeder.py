@@ -26,47 +26,23 @@ session.commit()
 
 
 # Add categories
-category1 = Category(
-            name="Snowboarding",
-            pic="""
-            https://farm4.staticflickr.com/3710/11358281146_34af67826f.jpg
-            """
-        )
+category1 = Category(name="Snowboarding")
 session.add(category1)
 session.commit()
 
-category2 = Category(
-            name="Soccer",
-            pic="""
-            https://9b16f79ca967fd0708d1-2713572fef44aa49ec323e813b06d2d9.ssl.cf2.rackcdn.com/1140x_a10-7_cTC/LIFE-EDU-SOCCER-SUED-MCT-1542165981.jpg
-            """
-            )
+category2 = Category(name="Soccer")
 session.add(category2)
 session.commit()
 
-category3 = Category(
-            name="Basketball",
-            pic="""
-            https://pixabay.com/get/e135b00828fc1c22d2524518b7444795ea76e5d004b0144590f3c37ba0eeb0_340.jpg
-            """
-            )
+category3 = Category(name="Basketball")
 session.add(category3)
 session.commit()
 
-category4 = Category(
-            name="Football",
-            pic="""
-            https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq1xrYvsjOgXSo2BhqSctfl0YCqmwqR15GJWQlmeDL9O6bOOEb
-            """
-            )
+category4 = Category(name="Football")
 session.add(category4)
 session.commit()
 
-category5 = Category(
-            name="Hockey",
-            pic="""
-            https://www.macleans.ca/wp-content/uploads/2017/06/JUNE30_BRUNT_HOCKEY_POST01.jpg
-            """)
+category5 = Category(name="Hockey")
 session.add(category5)
 session.commit()
 

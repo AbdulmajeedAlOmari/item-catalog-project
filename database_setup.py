@@ -20,10 +20,6 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
-    pic = Column(
-        String(250),
-        default="http://iubemcenter.indiana.edu/images/CheckerBoard64.jpg"
-        )
 
     @property
     def serialize(self):
