@@ -11,11 +11,9 @@
           <label for="inputCategory">Category</label>
           <select name="category" id="inputCategory" class="form-control" required>
             <option value="" selected>Choose...</option>
-            <option value="Snowboarding">Snowboarding</option>
-            <option value="Soccer">Soccer</option>
-            <option value="Basketball">Basketball</option>
-            <option value="Football">Football</option>
-            <option value="Hockey">Hockey</option>
+            {% for category in categories %}
+                <option value={{ category.id }}>{{ category.name }}</option>
+            {% endfor %}
           </select>
         </div>
       </div>
