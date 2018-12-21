@@ -11,7 +11,7 @@
   <p class="lead">
     This project is required in the udacity's full stack nano degree program.
   </p>
-  
+
   {% with messages = get_flashed_messages() %}
     {% if messages %}
       {% for message in messages %}
@@ -27,19 +27,16 @@
   <div class="row">
     <div class="col-5 text-center">
       <strong>Category</strong>
-      <br />
-      <a class="myAnchor" href="#">DummyCatalog</a>
-      {% for catalog in catalogs %}
+      {% for category in categories %}
           <br />
-          <a href="#">{{ catalog.name }}</a>
+          <a href="#">{{ category.name }}</a>
       {% endfor %}
 
     </div>
     <div class="col-7">
       <strong>Recently Added Items</strong>
-      <br />
-      <a href="#">DummyItem</a> <span class="text-muted">(Soccer)</span>
       {% for item in recentlyAddedItems %}
+          <br />
           <a href="#">{{ item.name }}</a> <span class="text-muted">({{ item.category.name }})</span>
       {% endfor %}
     </div>

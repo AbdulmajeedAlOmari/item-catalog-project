@@ -40,9 +40,17 @@ def showLogin():
 
 
 @app.route('/catalog')
-def showCatalogs():
-    items = session.query(Item).all()
-    return render_template('index.html', items=items)
+def showCatalog():
+    items = session.query(Item).order_by(
+                                    Item.created_date.desc()
+                                ).limit(10).all()
+    categories = session.query(Category).all()
+
+    return render_template(
+                'index.html',
+                categories=categories,
+                recentlyAddedItems=items
+            )
 
 
 @app.route('/catalog/<string:category>')
@@ -50,9 +58,23 @@ def showCategory(category):
     return render_template('categories/show.html')
 
 
-@app.route('/catalog/new')
+# New Item Route [ Show / New ]
+@app.route('/catalog/new', methods=["GET", "POST"])
 def newItem():
-    return render_template('items/new.html')
+    if request.method == "POST":
+        newItem = Item(
+            name=request.form['name'],
+            description=request.form['description'],
+            category_id=request.form['category'],
+        )
+        session.add(newItem)
+        session.commit()
+
+        flash("Item was successfully added.")
+        return redirect(url_for("showCatalog"))
+
+    categories = session.query(Category).all()
+    return render_template('items/new.html', categories=categories)
 
 
 @app.route('/catalog/<string:category>/<int:item_id>/edit')
@@ -66,5 +88,6 @@ def deleteItem(category, item_id):
 
 
 if __name__ == '__main__':
+    app.secret_key = '$up3r_$eCr3T_K3Y'
     app.debug = True
     app.run(host='0.0.0.0', port=8080)
