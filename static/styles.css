@@ -13,4 +13,10 @@ body {
 
 #myJumbotron {
   margin-top: 2.0rem;
+  background-color: #4b5162;
+  color: white;
+}
+
+.myAnchor {
+  color: #5294e2;
 }
