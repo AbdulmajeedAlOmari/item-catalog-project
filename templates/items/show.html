@@ -1,0 +1,30 @@
+{% include 'common/header.html' %}
+
+<div id="" class="jumbotron myJumbotron">
+
+  <div class="d-flex mb-3 align-items-center">
+    <h1 class="p-2 display-4"><strong>{{ item.name }}</strong></h1>
+    <div class="ml-auto p-2">
+      <a class="btn btn-warning" href="/catalog/{{ item.category.name }}/{{ item.id }}/edit">Edit Item</a>
+      <a class="btn btn-danger" href="/catalog/{{ item.category.name }}/{{ item.id }}/delete">Delete Item</a>
+    </div>
+  </div>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <hr class="my-4">
+
+  <p class="font-weight-light">
+    {{ item.description }}
+  </p>
+</div>
+
+{% include 'common/footer.html' %}

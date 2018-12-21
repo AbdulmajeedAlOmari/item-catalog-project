@@ -77,6 +77,16 @@ def newItem():
     return render_template('items/new.html', categories=categories)
 
 
+@app.route('/catalog/<string:category>/<int:item_id>')
+def showItem(category, item_id):
+    item = session.query(Item).filter_by(id=item_id).one()
+
+    if item:
+        return render_template('items/show.html', item=item)
+    else:
+        return redirect(url_for("showCatalog"))
+
+
 @app.route('/catalog/<string:category>/<int:item_id>/edit')
 def editItem(category, item_id):
     return render_template('items/edit.html')
