@@ -87,9 +87,26 @@ def showItem(category, item_id):
         return redirect(url_for("showCatalog"))
 
 
-@app.route('/catalog/<string:category>/<int:item_id>/edit')
+@app.route('/catalog/<string:category>/<int:item_id>/edit', methods=[
+    "GET", "POST"])
 def editItem(category, item_id):
-    return render_template('items/edit.html')
+    item = session.query(Item).filter_by(id=item_id).one()
+    if request.method == "POST":
+        if (request.form['name']
+                and request.form['description']
+                and request.form['category']):
+            item.name = request.form['name']
+            item.description = request.form['description']
+            item.category_id = request.form['category']
+            flash("Item successfully edited.")
+            return redirect(url_for(
+                "showItem",
+                category=item.category.name,
+                item_id=item.id)
+            )
+
+    categories = session.query(Category).all()
+    return render_template('items/edit.html', item=item, categories=categories)
 
 
 @app.route('/catalog/<string:category>/<int:item_id>/delete')

@@ -1,12 +1,29 @@
-{% extends "base.html" %}
-{% block title %}Edit Item{% endblock %}
+{% include "common/header.html" %}
 
-{% block content %}
-  <header>
-    Edit Item
-  </header>
+  <div class="jumbotron myJumbotron">
+    <form method="POST" action="/catalog/{{ item.category.name }}/{{ item.id }}/edit">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputName">Name</label>
+          <input name="name" id="inputName" type="text" class="form-control" placeholder="Name" value="{{ item.name }}" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputCategory">Category</label>
+          <select name="category" id="inputCategory" class="form-control" required>
+            <option value="">Choose...</option>
+            {% for category in categories %}
+                <option value={{ category.id }} {% if category.id == item.category.id %}selected{% endif %}>{{ category.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputDescription">Description</label>
+        <textarea name="description" id="inputDescription" class="form-control" rows="8" placeholder="Description" required>{{ item.description }}</textarea>
+      </div>
+      <button type="submit" class="btn btn-warning">Edit</button>
+    </form>
 
-  <p class="textBody">
-    Suppose that this is the edit item page....
-  </p>
-{% endblock %}
+  </div>
+
+{% include "common/footer.html" %}

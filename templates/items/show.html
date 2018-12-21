@@ -25,6 +25,9 @@
   <p class="font-weight-light">
     {{ item.description }}
   </p>
+  <p class="font-italic">
+    <strong>Category: </strong> {{ item.category.name }}
+  </p>
 </div>
 
 {% include 'common/footer.html' %}
