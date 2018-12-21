@@ -27,11 +27,9 @@
               Categories
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Soccer</a>
-              <a class="dropdown-item" href="#">Basketball</a>
-              <a class="dropdown-item" href="#">Basketball</a>
-              <a class="dropdown-item" href="#">Basketball</a>
-              <a class="dropdown-item" href="#">Basketball</a>
+              {% for category in categories %}
+                  <a class="dropdown-item" href="/catalog/{{ category.name }}">{{ category.name }}</a>
+              {% endfor %}
             </div>
           </li>
         </ul>

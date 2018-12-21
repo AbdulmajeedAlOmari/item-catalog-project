@@ -58,9 +58,16 @@ def showCatalog():
             )
 
 
-@app.route('/catalog/<string:category>')
-def showCategory(category):
-    return render_template('categories/show.html')
+@app.route('/catalog/<string:category_name>')
+def showCategory(category_name):
+    category = session.query(Category).filter_by(name=category_name).one()
+    items = session.query(Item).filter_by(category_id=category.id).all()
+
+    return render_template(
+            'categories/show.html',
+            items=items,
+            category_name=category_name,
+        )
 
 
 # New Item route [ Form / Create ]
