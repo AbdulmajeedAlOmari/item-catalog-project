@@ -1,21 +1,21 @@
 {% include 'common/header.html' %}
 <div id="myJumbotron" class="jumbotron">
-  <h1 class="display-4">Welcome to my Item Catalog</h1>
+
+  <div class="d-flex mb-3 align-items-center">
+    <h1 class="p-2 display-4">Welcome to my Item Catalog</h1>
+    <div class="ml-auto p-2">
+      <a class="btn btn-primary" href="/catalog/new">Add Item</a>
+    </div>
+  </div>
+
   <p class="lead">
-    This project is required in the udacity's full stack nano degree program. <br />
-    <!-- What did in this project:
-    <ul>
-      <li>Styling</li>
-      <li>Routing</li>
-      <li>Database</li>
-      <li>CRUD</li>
-      <li>Authentication</li>
-    </ul> -->
+    This project is required in the udacity's full stack nano degree program.
   </p>
-  <!-- <img src="static/AbdulmajeedAlomari.jpg" alt="My Image" width="10%" class="rounded-circle"> -->
+
   <hr class="my-4">
+
   <div class="row">
-    <div class="col-4 text-center">
+    <div class="col-5 text-center">
       <strong>Category</strong>
       <br />
       <a class="myAnchor" href="#">DummyCatalog</a>
@@ -25,14 +25,13 @@
       {% endfor %}
 
     </div>
-    <div class="col-8">
+    <div class="col-7">
       <strong>Recently Added Items</strong>
       <br />
       <a href="#">DummyItem</a> <span class="text-muted">(Soccer)</span>
       {% for item in recentlyAddedItems %}
           <a href="#">{{ item.name }}</a> <span class="text-muted">({{ item.category.name }})</span>
       {% endfor %}
-
     </div>
   </div>
 </div>

@@ -2,6 +2,10 @@ body {
   background-color: #7c818c;
 }
 
+.myAnchor {
+  color: #5294e2;
+}
+
 #navbar {
   margin-top: 30px;
   background-color: #383c4a;
@@ -15,8 +19,4 @@ body {
   margin-top: 2.0rem;
   background-color: #4b5162;
   color: white;
-}
-
-.myAnchor {
-  color: #5294e2;
 }
