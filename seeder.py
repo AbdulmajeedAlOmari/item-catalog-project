@@ -16,13 +16,13 @@ Base.metadata.drop_all()
 Base.metadata.create_all()
 
 # Add users
-User1 = User(name="Abdulmajeed Alomari", email="abdulmajeedmmo@gmail.com")
-session.add(User1)
-session.commit()
-
-User2 = User(name="Nawaf Alquaid", email="nawaf.alquaid@gmail.com")
-session.add(User2)
-session.commit()
+# User1 = User(name="Abdulmajeed Alomari", email="abdulmajeedmmo@gmail.com")
+# session.add(User1)
+# session.commit()
+#
+# User2 = User(name="Nawaf Alquaid", email="nawaf.alquaid@gmail.com")
+# session.add(User2)
+# session.commit()
 
 
 # Add categories
@@ -50,36 +50,36 @@ session.commit()
 # Add items
 # [ User1 ]
 item = Item(name="Stick", description="A stick that can be used.. etc..",
-            category_id=category5.id, user_id=User1.id)
+            category_id=category5.id)
 session.add(item)
 session.commit()
 
 item = Item(name="Goggles", description="Goggles that can be used.. etc..",
-            category_id=category1.id, user_id=User1.id)
+            category_id=category1.id)
 session.add(item)
 session.commit()
 
 item = Item(name="Snowboard", description="Snowbourd that can be used.. etc..",
-            category_id=category1.id, user_id=User1.id)
+            category_id=category1.id)
 session.add(item)
 session.commit()
 
 # [ User2 ]
 item = Item(name="Two Shinguards",
             description="Two Shinguards that can be used.. etc..",
-            category_id=category2.id, user_id=User2.id)
+            category_id=category2.id)
 session.add(item)
 session.commit()
 
 item = Item(name="Shinguards",
             description="Shinguards that can be used.. etc..",
-            category_id=category2.id, user_id=User2.id)
+            category_id=category2.id)
 session.add(item)
 session.commit()
 
 item = Item(name="Bat",
             description="A Bat that can be used.. etc..",
-            category_id=category3.id, user_id=User2.id)
+            category_id=category3.id)
 session.add(item)
 session.commit()
 
