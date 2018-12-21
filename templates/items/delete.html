@@ -1,12 +1,21 @@
-{% extends "base.html" %}
-{% block title %}Delete Item{% endblock %}
+{% include 'common/header.html' %}
 
-{% block content %}
-  <header>
-    Delete Item
-  </header>
+<div id="" class="jumbotron myJumbotron">
 
-  <p class="textBody">
-    Are you sure that you will delete this item?
+  <div class="d-flex mb-3 align-items-center">
+    <h1 class="p-2 display-4"><strong>{{ item.name }}</strong></h1>
+  </div>
+
+  <hr class="my-4">
+
+  <p class="font-weight-bold">
+    Are you sure that you want to delete this item?
   </p>
-{% endblock %}
+  <form method="POST" action="/catalog/{{ item.category.name }}/{{ item.id }}/delete">
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a class="btn btn-light" href="/catalog/{{ item.category.name }}/{{ item.id }}">Cancel</a>
+  </form>
+
+</div>
+
+{% include 'common/footer.html' %}

@@ -29,26 +29,31 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+# Retrieve all categories to render them in the templates
+categories = session.query(Category).all()
+
+
+# Landing route
 @app.route('/')
 def showHome():
     return render_template('landing.html')
 
 
+# Authentication route [ Form / Authenticate ]
 @app.route('/login')
 def showLogin():
     return render_template('login.html')
 
 
+# Index route [ Read ]
 @app.route('/catalog')
 def showCatalog():
     items = session.query(Item).order_by(
                                     Item.created_date.desc()
                                 ).limit(10).all()
-    categories = session.query(Category).all()
 
     return render_template(
                 'index.html',
-                categories=categories,
                 recentlyAddedItems=items
             )
 
@@ -58,7 +63,7 @@ def showCategory(category):
     return render_template('categories/show.html')
 
 
-# New Item Route [ Show / New ]
+# New Item route [ Form / Create ]
 @app.route('/catalog/new', methods=["GET", "POST"])
 def newItem():
     if request.method == "POST":
@@ -73,10 +78,10 @@ def newItem():
         flash("Item was successfully added.")
         return redirect(url_for("showCatalog"))
 
-    categories = session.query(Category).all()
-    return render_template('items/new.html', categories=categories)
+    return render_template('items/new.html')
 
 
+# Show Item route [ Read ]
 @app.route('/catalog/<string:category>/<int:item_id>')
 def showItem(category, item_id):
     item = session.query(Item).filter_by(id=item_id).one()
@@ -87,6 +92,7 @@ def showItem(category, item_id):
         return redirect(url_for("showCatalog"))
 
 
+# Edit Item route [ Form / Update ]
 @app.route('/catalog/<string:category>/<int:item_id>/edit', methods=[
     "GET", "POST"])
 def editItem(category, item_id):
@@ -105,13 +111,27 @@ def editItem(category, item_id):
                 item_id=item.id)
             )
 
-    categories = session.query(Category).all()
-    return render_template('items/edit.html', item=item, categories=categories)
+    return render_template('items/edit.html', item=item)
 
 
-@app.route('/catalog/<string:category>/<int:item_id>/delete')
+# Delete Item route [ Confirmation / Delete ]
+@app.route('/catalog/<string:category>/<int:item_id>/delete', methods=[
+    "GET", "POST"])
 def deleteItem(category, item_id):
-    return render_template('items/delete.html')
+    item = session.query(Item).filter_by(id=item_id).one()
+    if request.method == "POST":
+        session.delete(item)
+        session.commit()
+        flash("Successfully deleted item.")
+        return redirect(url_for("showCatalog"))
+
+    return render_template('items/delete.html', item=item)
+
+
+# Pass categories to all templates (Global Variable)
+@app.context_processor
+def context_processor():
+    return dict(categories=categories)
 
 
 if __name__ == '__main__':
