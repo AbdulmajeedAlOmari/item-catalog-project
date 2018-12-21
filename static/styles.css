@@ -6,6 +6,12 @@ body {
   color: #5294e2;
 }
 
+.myJumbotron {
+  margin-top: 2.0rem;
+  background-color: #4b5162;
+  color: white;
+}
+
 #navbar {
   margin-top: 30px;
   background-color: #383c4a;
@@ -13,10 +19,4 @@ body {
 
 #searchForm {
   margin: auto;
-}
-
-#myJumbotron {
-  margin-top: 2.0rem;
-  background-color: #4b5162;
-  color: white;
 }
