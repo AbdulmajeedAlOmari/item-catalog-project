@@ -43,7 +43,7 @@ def showHome():
 @app.route('/login')
 def showLogin():
     if isLoggedIn():
-        flash('You are already logged in!<br /> %s' % login_session['username'], 'error')
+        flash('You are already logged in!', 'error')
         return redirect(url_for('showCatalog'))
 
     state = ''.join(random.choice(string.ascii_uppercase + string.
@@ -130,9 +130,6 @@ def gconnect():
 
     data = answer.json()
 
-    print("------------- All data -------------")
-    for key in data:
-        print("[ {} ] --> {}".format(key, data[key]))
     login_session['username'] = data['name']
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
@@ -163,24 +160,19 @@ def gdisconnect():
                     )
         response.headers['Content-Type'] = 'application/json'
         return response
-    print 'In gdisconnect access token is %s', access_token
-    print 'User name is: '
-    print login_session['username']
     url = 'https://accounts.google.com/o/oauth2/revoke'
     url += '?token=%s' % login_session['access_token']
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
-    print 'result is '
-    print result
     if result['status'] == '200':
         del login_session['access_token']
         del login_session['gplus_id']
         del login_session['username']
         del login_session['email']
         del login_session['picture']
-        response = make_response(json.dumps('Successfully disconnected.'), 200)
-        response.headers['Content-Type'] = 'application/json'
-        return response
+
+        flash('Successfully logged out!', 'success')
+        return redirect(url_for('showCatalog'))
     else:
         response = make_response(
                         json.dumps(
