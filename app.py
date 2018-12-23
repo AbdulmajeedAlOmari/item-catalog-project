@@ -3,23 +3,23 @@ from flask import flash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Category, Item, User
-# from flask import session as login_session
-# import random
-# import string
-# from oauth2client.client import flow_from_clientsecrets
-# from oauth2client.client import FlowExchangeError
-# import httplib2
-# import json
-# from flask import make_response
-# import requests
+from flask import session as login_session
+import random
+import string
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.client import FlowExchangeError
+import httplib2
+import json
+from flask import make_response
+import requests
 
+# Load from client_secret.json
+CLIENT_ID = json.loads(
+                open('client_secret.json', 'r').read()
+            )['web']['client_id']
+
+# Define app
 app = Flask(__name__)
-
-# CLIENT_ID = json.loads(
-#                 open('client_secrets.json', 'r').read()
-#             )['web']['client_id']
-# APPLICATION_NAME = "Item Catalog"
-
 
 # Connect to Database and create database session
 engine = create_engine('sqlite:///catalog.db?check_same_thread=False')
