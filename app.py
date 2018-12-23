@@ -42,6 +42,10 @@ def showHome():
 # START Authentication routes
 @app.route('/login')
 def showLogin():
+    if isLoggedIn():
+        flash('You are already logged in!<br /> %s' % login_session['username'], 'error')
+        return redirect(url_for('showCatalog'))
+
     state = ''.join(random.choice(string.ascii_uppercase + string.
                     digits) for x in xrange(32))
 
@@ -53,6 +57,10 @@ def showLogin():
 
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
+    if isLoggedIn():
+        flash('You are already logged in!', 'error')
+        return redirect(url_for('showCatalog'))
+
     if request.args.get('state') != login_session['state']:
         response = make_response(json.dumps('invalid state parameter'), 401)
         response.headers['Content-Type'] = 'application/json'
@@ -137,14 +145,14 @@ def gconnect():
     output += login_session['picture']
     output += '" style = "width: 300px; height: 300px;border-radius: 150px;" '
     output += '-webkit-border-radius: 150px;-moz-border-radius: 150px;">'
-    flash("you are now logged in as %s" % login_session['username'])
+    flash("you are now logged in as %s" % login_session['username'], "success")
     return output
 
 
 @app.route('/gdisconnect', methods=['POST'])
 def gdisconnect():
     if not isLoggedIn():
-        return redirect(url_for('showLogin'))
+        return userNeedsLogin()
 
     access_token = login_session.get('access_token')
     if access_token is None:
@@ -213,6 +221,9 @@ def showCategory(category_name):
 # New Item route [ Form / Create ]
 @app.route('/catalog/new', methods=["GET", "POST"])
 def newItem():
+    if not isLoggedIn():
+        return userNeedsLogin()
+
     if request.method == "POST":
         newItem = Item(
             name=request.form['name'],
@@ -222,7 +233,7 @@ def newItem():
         session.add(newItem)
         session.commit()
 
-        flash("Item was successfully added.")
+        flash("Item was successfully added.", "success")
         return redirect(url_for("showCatalog"))
 
     return render_template('items/new.html')
@@ -243,6 +254,9 @@ def showItem(category, item_id):
 @app.route('/catalog/<string:category>/<int:item_id>/edit', methods=[
     "GET", "POST"])
 def editItem(category, item_id):
+    if not isLoggedIn():
+        return userNeedsLogin()
+
     item = session.query(Item).filter_by(id=item_id).one()
     if request.method == "POST":
         if (request.form['name']
@@ -251,7 +265,7 @@ def editItem(category, item_id):
             item.name = request.form['name']
             item.description = request.form['description']
             item.category_id = request.form['category']
-            flash("Item successfully edited.")
+            flash("Item successfully edited.", 'success')
             return redirect(url_for(
                 "showItem",
                 category=item.category.name,
@@ -265,19 +279,28 @@ def editItem(category, item_id):
 @app.route('/catalog/<string:category>/<int:item_id>/delete', methods=[
     "GET", "POST"])
 def deleteItem(category, item_id):
+    if not isLoggedIn():
+        return userNeedsLogin()
+
     item = session.query(Item).filter_by(id=item_id).one()
     if request.method == "POST":
         session.delete(item)
         session.commit()
-        flash("Successfully deleted item.")
+        flash("Successfully deleted item.", "success")
         return redirect(url_for("showCatalog"))
 
     return render_template('items/delete.html', item=item)
 
 
-# Helper methods
+# START helper methods
 def isLoggedIn():
     return 'username' in login_session
+
+
+def userNeedsLogin():
+    flash('You need to login first!', 'error')
+    return redirect(url_for('showLogin'))
+# END helper methods
 
 
 # Pass global variables/methods to all templates
