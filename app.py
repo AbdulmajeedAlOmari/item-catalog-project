@@ -135,13 +135,18 @@ def deleteItem(category, item_id):
     return render_template('items/delete.html', item=item)
 
 
-# Pass categories to all templates (Global Variable)
+# Helper methods
+def isLoggedIn():
+    return 'username' in login_session
+
+
+# Pass global variables/methods to all templates
 @app.context_processor
 def context_processor():
-    return dict(categories=categories)
+    return dict(categories=categories, isLoggedIn=isLoggedIn)
 
 
 if __name__ == '__main__':
     app.secret_key = '$up3r_$eCr3T_K3Y'
     app.debug = True
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=5000)
