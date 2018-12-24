@@ -39,7 +39,7 @@ categories = session.query(Category).all()
 # Landing route
 @app.route('/')
 def showHome():
-    return render_template('landing.html')
+    return redirect(url_for('showCatalog'))
 
 
 # START Authentication routes
