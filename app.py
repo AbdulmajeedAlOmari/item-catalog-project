@@ -292,6 +292,32 @@ def isLoggedIn():
 def userNeedsLogin():
     flash('You need to login first!', 'error')
     return redirect(url_for('showLogin'))
+
+
+def createUser():
+    newUser = User(
+                name=login_session['username'],
+                email=login_session['email'],
+                picture=login_session['picture'],
+            )
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+
+    return user.id
+
+
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id=user_id).one()
+    return user
+
+
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user_id
+
+    return None
 # END helper methods
 
 
