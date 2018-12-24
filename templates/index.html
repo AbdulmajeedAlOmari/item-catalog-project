@@ -3,9 +3,12 @@
 
   <div class="d-flex mb-3 align-items-center">
     <h1 class="p-2 display-4">Welcome to my Item Catalog</h1>
-    <div class="ml-auto p-2">
-      <a class="btn btn-primary" href="/catalog/new">Add Item</a>
-    </div>
+    {% if isLoggedIn() %}
+      <div class="ml-auto p-2">
+        <a class="btn btn-primary" href="/catalog/new">Add Item</a>
+      </div>
+    {% endif %}
+
   </div>
 
   <p class="lead">

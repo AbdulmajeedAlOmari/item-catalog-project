@@ -4,10 +4,12 @@
 
   <div class="d-flex mb-3 align-items-center">
     <h1 class="p-2 display-4"><strong>{{ item.name }}</strong></h1>
-    <div class="ml-auto p-2">
-      <a class="btn btn-warning" href="/catalog/{{ item.category.name }}/{{ item.id }}/edit">Edit Item</a>
-      <a class="btn btn-danger" href="/catalog/{{ item.category.name }}/{{ item.id }}/delete">Delete Item</a>
-    </div>
+    {% if isLoggedIn() %}
+      <div class="ml-auto p-2">
+        <a class="btn btn-warning" href="/catalog/{{ item.category.name }}/{{ item.id }}/edit">Edit Item</a>
+        <a class="btn btn-danger" href="/catalog/{{ item.category.name }}/{{ item.id }}/delete">Delete Item</a>
+      </div>
+    {% endif %}
   </div>
 
   {% with messages = get_flashed_messages() %}
