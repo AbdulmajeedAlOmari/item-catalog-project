@@ -289,10 +289,11 @@ def deleteItem(category, item_id):
     if not isLoggedIn():
         return userNeedsLogin()
 
+    item = session.query(Item).filter_by(id=item_id).one()
+
     if not isOwner(item.user_id):
         return haveNoPermission()
 
-    item = session.query(Item).filter_by(id=item_id).one()
     if request.method == "POST":
         session.delete(item)
         session.commit()
