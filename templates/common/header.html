@@ -33,17 +33,13 @@
             </div>
           </li>
         </ul>
-        <form id="searchForm" class="form-inline my-2 my-lg-0" method="GET" action="/catalog">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-
+        
         {% if isLoggedIn() %}
             <form class="form-inline" action="/gdisconnect" method="POST">
-              <button type="submit" class="btn btn-secondary">Logout</button>
+              <button type="submit" class="btn btn-secondary"><i class="fas fa-sign-out-alt icon"></i>Logout</button>
             </form>
         {% else %}
-            <a class="btn btn-light" href="/login">Login</a>
+            <a class="btn btn-light" href="/login"><i class="fas fa-sign-in-alt icon"></i>Login</a>
         {% endif %}
 
       </div>
