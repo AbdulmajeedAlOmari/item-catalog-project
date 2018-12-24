@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, jsonify, url_for
 from flask import flash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm.exc import NoResultFound
 from database_setup import Base, Category, Item, User
 from flask import session as login_session
 import random
@@ -134,6 +135,13 @@ def gconnect():
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
 
+    # Check if a user exists
+    user_id = getUserID(data['email'])
+    if not user_id:
+        # Note that this method has access to login_session
+        createUser()
+    login_session['user_id'] = user_id
+
     output = ''
     output += '<h1>Welcome, '
     output += login_session['username']
@@ -250,6 +258,10 @@ def editItem(category, item_id):
         return userNeedsLogin()
 
     item = session.query(Item).filter_by(id=item_id).one()
+
+    if not isOwner(item.user_id):
+        return haveNoPermission()
+
     if request.method == "POST":
         if (request.form['name']
                 and request.form['description']
@@ -273,6 +285,9 @@ def editItem(category, item_id):
 def deleteItem(category, item_id):
     if not isLoggedIn():
         return userNeedsLogin()
+
+    if not isOwner(item.user_id):
+        return haveNoPermission()
 
     item = session.query(Item).filter_by(id=item_id).one()
     if request.method == "POST":
@@ -315,16 +330,29 @@ def getUserInfo(user_id):
 def getUserID(email):
     try:
         user = session.query(User).filter_by(email=email).one()
-        return user_id
+        return user.id
+    except NoResultFound:
+        return None
 
-    return None
+
+def isOwner(creator_id):
+    return creator_id == login_session['user_id']
+
+
+def haveNoPermission():
+    flash('You do not have permission to do that!', 'error')
+    return redirect(url_for('showCatalog'))
 # END helper methods
 
 
 # Pass global variables/methods to all templates
 @app.context_processor
 def context_processor():
-    return dict(categories=categories, isLoggedIn=isLoggedIn)
+    return dict(
+        categories=categories,
+        isLoggedIn=isLoggedIn,
+        isOwner=isOwner
+    )
 
 
 if __name__ == '__main__':
