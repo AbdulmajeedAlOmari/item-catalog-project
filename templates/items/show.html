@@ -3,7 +3,8 @@
 <div id="" class="jumbotron myJumbotron">
 
   <div class="d-flex mb-3 align-items-center">
-    <h1 class="p-2 display-4"><strong>{{ item.name }}</strong></h1>
+
+    <h1 class="p-2 display-4"><strong class="text-uppercase">{{ item.name }}</strong></h1>
     {% if isLoggedIn() and isOwner(item.user_id) %}
       <div class="ml-auto p-2">
         <a class="btn btn-warning" href="/catalog/{{ item.category.name }}/{{ item.id }}/edit">Edit Item</a>
@@ -24,11 +25,12 @@
 
   <hr class="my-4">
 
-  <p class="font-weight-light">
+  <p class="font-weight-bolder">
     {{ item.description }}
   </p>
-  <p class="font-italic">
-    <strong>Category: </strong> {{ item.category.name }}
+  <p class="font-italic font-weight-light">
+    <strong>Category: </strong> {{ item.category.name }} <br />
+    <strong>Creator: </strong> {{ item.user.name }}
   </p>
 </div>
 
