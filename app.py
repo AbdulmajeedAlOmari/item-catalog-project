@@ -13,6 +13,8 @@ import httplib2
 import json
 from flask import make_response
 import requests
+# from bleach import clean
+# from jinja2 import Markup
 
 # Load from client_secret.json
 CLIENT_ID = json.loads(
@@ -182,6 +184,7 @@ def gdisconnect():
         del login_session['username']
         del login_session['email']
         del login_session['picture']
+        del login_session['user_id']
 
         flash('Successfully logged out!', 'success')
         return redirect(url_for('showCatalog'))
@@ -228,6 +231,7 @@ def newItem():
             name=request.form['name'],
             description=request.form['description'],
             category_id=request.form['category'],
+            user_id=login_session['user_id']
         )
         session.add(newItem)
         session.commit()
@@ -268,15 +272,27 @@ def editItem(category, item_id):
         if (request.form['name']
                 and request.form['description']
                 and request.form['category']):
+
             item.name = request.form['name']
             item.description = request.form['description']
             item.category_id = request.form['category']
+
             flash("Item successfully edited.", 'success')
             return redirect(url_for(
-                "showItem",
-                category=item.category.name,
-                item_id=item.id)
+                    "showItem",
+                    category=item.category.name,
+                    item_id=item.id
+                )
             )
+        else:
+            flash("Incorrect item info, please fill it correctly.", "error")
+            return redirect(
+                        url_for(
+                            'editItem',
+                            category=category,
+                            item_id=item_id
+                        )
+                    )
 
     return render_template('items/edit.html', item=item)
 
@@ -347,6 +363,18 @@ def isOwner(creator_id):
 def haveNoPermission():
     flash('You do not have permission to do that!', 'error')
     return redirect(url_for('showCatalog'))
+
+
+# def cleanText(text):
+#     # Return text with allowed tags only
+#     return clean(
+#         text,
+#         tags=[
+#             'a', 'abbr', 'acronym', 'b', 'blockquote', 'code', 'em', 'i',
+#             'li', 'ol', 'strong', 'ul', 'br'
+#         ],
+#         strip=True
+#     )
 # END helper methods
 
 
