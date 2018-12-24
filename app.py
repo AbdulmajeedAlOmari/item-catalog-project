@@ -43,6 +43,7 @@ def showHome():
 # START Authentication routes
 @app.route('/login')
 def showLogin():
+    # Check if user already logged in
     if isLoggedIn():
         flash('You are already logged in!', 'error')
         return redirect(url_for('showCatalog'))
@@ -58,6 +59,7 @@ def showLogin():
 
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
+    # Check if user already logged in
     if isLoggedIn():
         flash('You are already logged in!', 'error')
         return redirect(url_for('showCatalog'))
@@ -172,6 +174,8 @@ def gdisconnect():
     url += '?token=%s' % login_session['access_token']
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
+
+    # If logging out was successful, remove user from login_session
     if result['status'] == '200':
         del login_session['access_token']
         del login_session['gplus_id']
@@ -182,20 +186,15 @@ def gdisconnect():
         flash('Successfully logged out!', 'success')
         return redirect(url_for('showCatalog'))
     else:
-        response = make_response(
-                        json.dumps(
-                            'Failed to revoke token for given user.',
-                            400
-                        )
-                    )
-        response.headers['Content-Type'] = 'application/json'
-        return response
+        flash('Could not logout, please try again later.', 'error')
+        return redirect(url_for('showCatalog'))
 # END authentication routes
 
 
 # Index route [ Read ]
 @app.route('/catalog')
 def showCatalog():
+    # Get 10 most recent items from Database
     items = session.query(Item).order_by(
                                     Item.created_date.desc()
                                 ).limit(10).all()
@@ -254,15 +253,18 @@ def showItem(category, item_id):
 @app.route('/catalog/<string:category>/<int:item_id>/edit', methods=[
     "GET", "POST"])
 def editItem(category, item_id):
+    # If user is not logged in, redirect to home page
     if not isLoggedIn():
         return userNeedsLogin()
 
     item = session.query(Item).filter_by(id=item_id).one()
 
+    # If user is not the owner of this item, redirect to home page
     if not isOwner(item.user_id):
         return haveNoPermission()
 
     if request.method == "POST":
+        # Verify user input
         if (request.form['name']
                 and request.form['description']
                 and request.form['category']):
@@ -283,6 +285,7 @@ def editItem(category, item_id):
 @app.route('/catalog/<string:category>/<int:item_id>/delete', methods=[
     "GET", "POST"])
 def deleteItem(category, item_id):
+    # If user is not logged in, redirect to home page
     if not isLoggedIn():
         return userNeedsLogin()
 
@@ -336,6 +339,7 @@ def getUserID(email):
 
 
 def isOwner(creator_id):
+    # Returns True if user was the owner/creator of the item
     return creator_id == login_session['user_id']
 
 
@@ -348,6 +352,10 @@ def haveNoPermission():
 # Pass global variables/methods to all templates
 @app.context_processor
 def context_processor():
+    # categories: a list of categories retrieved from Database.
+    # isLoggedIn: a function that checks if user was logged in.
+    # isOwner: a function that checks if the user was the owner of a certain
+    # item.
     return dict(
         categories=categories,
         isLoggedIn=isLoggedIn,
