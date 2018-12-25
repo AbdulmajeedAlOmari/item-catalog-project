@@ -27,7 +27,6 @@ class Category(Base):
         return {
             'id': self.id,
             'name': self.name,
-            'pic': self.pic,
         }
 
 

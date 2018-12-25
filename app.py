@@ -208,9 +208,26 @@ def showCatalog():
             )
 
 
+@app.route('/catalog/JSON')
+def catalogJSON():
+    data = {}
+    data['categories'] = [i.serialize for i in categories]
+
+    # Retrieve all the categories with their items
+    for category in data['categories']:
+        items = session.query(Item).filter_by(category_id=category['id'])
+        category['items'] = [i.serialize for i in items]
+    return jsonify(data)
+
+
 @app.route('/catalog/<string:category_name>')
 def showCategory(category_name):
-    category = session.query(Category).filter_by(name=category_name).one()
+    try:
+        category = session.query(Category).filter_by(name=category_name).one()
+    except NoResultFound:
+        flash('No category found with that name.', 'error')
+        return redirect(url_for('showCatalog'))
+
     items = session.query(Item).filter_by(category_id=category.id).all()
 
     return render_template(
@@ -218,6 +235,25 @@ def showCategory(category_name):
             items=items,
             category_name=category_name,
         )
+
+
+@app.route('/catalog/<string:category_name>/JSON')
+def categoryJSON(category_name):
+    # Retrieve category
+    try:
+        category = session.query(Category).filter_by(name=category_name).one()
+    except NoResultFound:
+        flash('No category found with that name.', 'error')
+        return redirect(url_for('showCatalog'))
+
+    # Retrieve its items
+    items = session.query(Item).filter_by(category_id=category.id)
+
+    # Jsonify data
+    data = {}
+    data['category'] = category.serialize
+    data['category']['items'] = [i.serialize for i in items]
+    return jsonify(data)
 
 
 # New Item route [ Form / Create ]
@@ -317,6 +353,18 @@ def deleteItem(category, item_id):
         return redirect(url_for("showCatalog"))
 
     return render_template('items/delete.html', item=item)
+
+
+@app.route('/catalog/<string:category>/<int:item_id>/JSON')
+def itemJSON(category, item_id):
+    try:
+        item = session.query(Item).filter_by(id=item_id).one()
+    except NoResultFound:
+        flash('No item found with that ID.', 'error')
+        return redirect(url_for('showCatalog'))
+
+    data = item.serialize
+    return jsonify(data)
 
 
 # START helper methods
