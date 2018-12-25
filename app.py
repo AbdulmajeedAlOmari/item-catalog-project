@@ -145,14 +145,16 @@ def gconnect():
         createUser()
     login_session['user_id'] = user_id
 
-    output = ''
-    output += '<h1>Welcome, '
+    output = '<div class="d-flex mb-3 align-items-center">'
+    output += '<h3 class="p-2 display-5">Welcome, '
     output += login_session['username']
-    output += '!</h1>'
-    output += '<img src="'
+    output += '!</h3>'
+    output += '<img class="ml-auto p-2" src="'
     output += login_session['picture']
     output += '" style = "width: 300px; height: 300px;border-radius: 150px;" '
+    output += 'alt"profile image" '
     output += '-webkit-border-radius: 150px;-moz-border-radius: 150px;">'
+    output += '</div>'
     flash("you are now logged in as %s" % login_session['username'], "success")
     return output
 

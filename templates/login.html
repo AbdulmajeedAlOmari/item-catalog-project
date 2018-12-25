@@ -93,7 +93,7 @@
           data: authResult['code'],
           success: function(result) {
             if(result) {
-              $("#result").html("<div class='alert alert-success' role='alert'>Login Successful!</div><br />"+ result + "<br /> Redirecting...")
+              $("#result").html("<div class='alert alert-success' role='alert'>Login Successful!</div><br />"+ result + "<br /> <span class='text-muted'>Redirecting...</span>")
               setTimeout(function() {
                 window.location.href = "/catalog";
               }, 4000)
