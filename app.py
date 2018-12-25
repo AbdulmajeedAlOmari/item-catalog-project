@@ -13,8 +13,6 @@ import httplib2
 import json
 from flask import make_response
 import requests
-# from bleach import clean
-# from jinja2 import Markup
 
 # Load from client_secret.json
 CLIENT_ID = json.loads(
@@ -281,12 +279,13 @@ def newItem():
 # Show Item route [ Read ]
 @app.route('/catalog/<string:category>/<int:item_id>')
 def showItem(category, item_id):
-    item = session.query(Item).filter_by(id=item_id).one()
+    try:
+        item = session.query(Item).filter_by(id=item_id).one()
+    except NoResultFound:
+        flash('No item with that ID found.', 'error')
+        return redirect(url_for('showCatalog'))
 
-    if item:
-        return render_template('items/show.html', item=item)
-    else:
-        return redirect(url_for("showCatalog"))
+    return render_template('items/show.html', item=item)
 
 
 # Edit Item route [ Form / Update ]
@@ -297,7 +296,11 @@ def editItem(category, item_id):
     if not isLoggedIn():
         return userNeedsLogin()
 
-    item = session.query(Item).filter_by(id=item_id).one()
+    try:
+        item = session.query(Item).filter_by(id=item_id).one()
+    except NoResultFound:
+        flash('No item with that ID found.', 'error')
+        return redirect(url_for('showCatalog'))
 
     # If user is not the owner of this item, redirect to home page
     if not isOwner(item.user_id):
@@ -341,7 +344,11 @@ def deleteItem(category, item_id):
     if not isLoggedIn():
         return userNeedsLogin()
 
-    item = session.query(Item).filter_by(id=item_id).one()
+    try:
+        item = session.query(Item).filter_by(id=item_id).one()
+    except NoResultFound:
+        flash('No item with that ID found.', 'error')
+        return redirect(url_for('showCatalog'))
 
     if not isOwner(item.user_id):
         return haveNoPermission()
@@ -360,7 +367,7 @@ def itemJSON(category, item_id):
     try:
         item = session.query(Item).filter_by(id=item_id).one()
     except NoResultFound:
-        flash('No item found with that ID.', 'error')
+        flash('No item with that ID found.', 'error')
         return redirect(url_for('showCatalog'))
 
     data = item.serialize
@@ -411,18 +418,6 @@ def isOwner(creator_id):
 def haveNoPermission():
     flash('You do not have permission to do that!', 'error')
     return redirect(url_for('showCatalog'))
-
-
-# def cleanText(text):
-#     # Return text with allowed tags only
-#     return clean(
-#         text,
-#         tags=[
-#             'a', 'abbr', 'acronym', 'b', 'blockquote', 'code', 'em', 'i',
-#             'li', 'ol', 'strong', 'ul', 'br'
-#         ],
-#         strip=True
-#     )
 # END helper methods
 
 
