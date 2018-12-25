@@ -31,7 +31,7 @@ cd item-catalog-project
 5. Go to your browser, and visit `http://localhost:5000`
 6. Enjoy :)
 
-## API Endpoint
+## API Endpoints
 - `/catalog/JSON`: retrieve a list of all the categories and their items.
 - `/catalog/<string:category_name>/JSON`: retrieve a list of all the items in the specified category.
 - `/catalog/<string:category>/<int:item_id>/JSON`: retrieve item's details.
