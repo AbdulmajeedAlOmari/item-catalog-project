@@ -1,0 +1,27 @@
+.footer {
+  font-size: 90%;
+  background-color: gray;
+  position:absolute;
+  bottom:0;
+  width:100%;
+  background: #383c4a;
+}
+
+.footer-link {
+  padding: 0;
+  margin-right: 1rem;
+  font-weight: 700;
+  color: #5294e2;
+  display: inline-block;
+  margin-left: 1rem;
+}
+
+ul.links li {
+  list-style: none;
+  display: inline;
+  margin-right: 2rem;
+}
+
+.madeBy {
+  color: #7c818c;
+}
