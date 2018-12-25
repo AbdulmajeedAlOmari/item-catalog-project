@@ -381,14 +381,20 @@ def haveNoPermission():
 # Pass global variables/methods to all templates
 @app.context_processor
 def context_processor():
+    username = None
+    if 'username' in login_session:
+        username = login_session['username']
+
     # categories: a list of categories retrieved from Database.
     # isLoggedIn: a function that checks if user was logged in.
     # isOwner: a function that checks if the user was the owner of a certain
     # item.
+    # username: contains the username of the logged in user
     return dict(
         categories=categories,
         isLoggedIn=isLoggedIn,
-        isOwner=isOwner
+        isOwner=isOwner,
+        username=username
     )
 
 

@@ -24,3 +24,9 @@ body {
 .icon {
   margin-right: 10px;
 }
+
+.myUsernameDetails {
+  color: white;
+  weight: 500;
+  margin-right: 10px;
+}
