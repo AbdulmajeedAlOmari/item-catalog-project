@@ -16,10 +16,12 @@ import requests
 
 
 # Define client_secret.json path
-clien_secret_path = '/var/www/ItemCatalog/client_secret.json'
+CLIENT_SECRET_PATH = './client_secret.json'
+
+
 # Load from client_secret.json
 CLIENT_ID = json.loads(
-                open(clien_secret_path, 'r').read()
+                open(CLIENT_SECRET_PATH, 'r').read()
             )['web']['client_id']
 
 # Define app
@@ -74,7 +76,7 @@ def gconnect():
 
     code = request.data
     try:
-        oauth_flow = flow_from_clientsecrets(client_secret_path, scope='')
+        oauth_flow = flow_from_clientsecrets(CLIENT_SECRET_PATH, scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
