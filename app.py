@@ -13,11 +13,12 @@ import httplib2
 import json
 from flask import make_response
 import requests
+import os
 
 
+dir_path = os.path.dirname(os.path.realpath(__file__))
 # Define client_secret.json path
-CLIENT_SECRET_PATH = './client_secret.json'
-
+CLIENT_SECRET_PATH = dir_path + '/../' + 'client_secret.json'
 
 # Load from client_secret.json
 CLIENT_ID = json.loads(
