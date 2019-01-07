@@ -146,7 +146,7 @@ def gconnect():
     user_id = getUserID(data['email'])
     if not user_id:
         # Note that this method has access to login_session
-        createUser()
+        user_id = createUser()
     login_session['user_id'] = user_id
 
     output = '<div class="d-flex mb-3 align-items-center">'
