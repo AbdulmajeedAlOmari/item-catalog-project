@@ -1,7 +1,26 @@
-html, body {
+html {
   height: 100%;
   background-color: #7c818c;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  position: relative;
   margin: 0;
+  padding-bottom: 6rem;
+  min-height: 100%;
+  background-color: #7c818c;
+}
+
+.myContent {
+  margin: 0 auto;
+  margin-bottom: 10rem;
 }
 
 .myAnchor {

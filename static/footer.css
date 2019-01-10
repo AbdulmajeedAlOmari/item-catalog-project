@@ -1,18 +1,14 @@
-.footer {
-  font-size: 90%;
-  background-color: gray;
-  bottom:0;
-  width:100%;
-  background: #383c4a;
-}
 
-.footer-link {
-  padding: 0;
-  margin-right: 1rem;
-  font-weight: 700;
-  color: #5294e2;
-  display: inline-block;
-  margin-left: 1rem;
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #383c4a;
+  text-align: center;
+  font-size: 90%;
+  margin-top: 2rem;
 }
 
 ul.links li {
