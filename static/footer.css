@@ -1,7 +1,6 @@
 .footer {
   font-size: 90%;
   background-color: gray;
-  position:absolute;
   bottom:0;
   width:100%;
   background: #383c4a;
@@ -20,6 +19,10 @@ ul.links li {
   list-style: none;
   display: inline;
   margin-right: 2rem;
+}
+
+.myButton {
+  margin-bottom: 2rem;
 }
 
 .madeBy {
