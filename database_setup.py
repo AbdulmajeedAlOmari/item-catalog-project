@@ -8,7 +8,7 @@ Base = declarative_base()
 
 
 class User(Base):
-    __tablename__ = 'user'
+    __tablename__ = 'users_table'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
@@ -17,7 +17,7 @@ class User(Base):
 
 
 class Category(Base):
-    __tablename__ = 'category'
+    __tablename__ = 'categories_table'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
@@ -31,14 +31,14 @@ class Category(Base):
 
 
 class Item(Base):
-    __tablename__ = 'item'
+    __tablename__ = 'items_table'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(80), nullable=False)
     description = Column(String(250))
-    category_id = Column(Integer, ForeignKey('category.id'))
+    category_id = Column(Integer, ForeignKey('categories_table.id'))
     category = relationship(Category)
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('users_table.id'))
     user = relationship(User)
     created_date = Column(DateTime, default=datetime.datetime.utcnow)
 
@@ -52,7 +52,7 @@ class Item(Base):
         }
 
 
-engine = create_engine('sqlite:///catalog.db')
+engine = create_engine('postgresql://catalog:password@localhost:5432/catalog')
 
 
 Base.metadata.create_all(engine)

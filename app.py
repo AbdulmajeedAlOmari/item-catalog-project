@@ -3,7 +3,7 @@ from flask import flash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
-from database_setup import Base, Category, Item, User
+from ItemCatalog.database_setup import Base, Category, Item, User
 from flask import session as login_session
 import random
 import string
@@ -13,17 +13,23 @@ import httplib2
 import json
 from flask import make_response
 import requests
+import os
+
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+# Define client_secret.json path
+CLIENT_SECRET_PATH = dir_path + '/../' + 'client_secret.json'
 
 # Load from client_secret.json
 CLIENT_ID = json.loads(
-                open('client_secret.json', 'r').read()
+                open(CLIENT_SECRET_PATH, 'r').read()
             )['web']['client_id']
 
 # Define app
 app = Flask(__name__)
 
 # Connect to Database and create database session
-engine = create_engine('sqlite:///catalog.db?check_same_thread=False')
+engine = create_engine('postgresql://catalog:password@localhost:5432/catalog')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -49,7 +55,7 @@ def showLogin():
         return redirect(url_for('showCatalog'))
 
     state = ''.join(random.choice(string.ascii_uppercase + string.
-                    digits) for x in xrange(32))
+                    digits) for x in range(32))
 
     login_session['state'] = state
 
@@ -71,7 +77,7 @@ def gconnect():
 
     code = request.data
     try:
-        oauth_flow = flow_from_clientsecrets('client_secret.json', scope='')
+        oauth_flow = flow_from_clientsecrets(CLIENT_SECRET_PATH, scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
@@ -140,7 +146,7 @@ def gconnect():
     user_id = getUserID(data['email'])
     if not user_id:
         # Note that this method has access to login_session
-        createUser()
+        user_id = createUser()
     login_session['user_id'] = user_id
 
     output = '<div class="d-flex mb-3 align-items-center">'
@@ -444,4 +450,4 @@ def context_processor():
 if __name__ == '__main__':
     app.secret_key = '$up3r_$eCr3T_K3Y'
     app.debug = True
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='localhost', port=5000)
